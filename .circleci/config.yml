@@ -1,0 +1,45 @@
+version: 2.1
+
+executors:
+  node-executor:
+    docker:
+      - image: cimg/node:22.3  # Matches your local Node.js version
+    working_directory: ~/repo
+
+jobs:
+  run-ui-tests:
+    executor: node-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run UI tests
+          command: npm run test:ui
+      - store_artifacts:
+          path: reports/ui
+          destination: ui-reports
+
+  run-api-tests:
+    executor: node-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run API tests
+          command: npm run test:api
+      - store_artifacts:
+          path: reports/api
+          destination: api-reports
+
+workflows:
+  version: 2
+  test-workflow:
+    jobs:
+      - run-ui-tests
+      - run-api-tests:
+          requires:
+            - run-ui-tests

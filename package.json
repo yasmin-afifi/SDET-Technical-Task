@@ -1,0 +1,29 @@
+{
+  "name": "sdet-technical-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:ui": "nightwatch ui-tests/tests --env chrome",
+    "test:homepage": "nightwatch ui-tests/tests/homepageTest.js --env chrome",
+    "test:linkedin": "nightwatch ui-tests/tests/linkedinRegisterTest.js --env chrome",
+    "test:mystore": "nightwatch ui-tests/tests/myStoreSearchTest.js --env chrome",
+    "test:api": "jest --runInBand --testPathPatterns=api-tests",
+    "test": "npm run test:ui && npm run test:api"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^2.2.0",
+    "chromedriver": "^138.0.5",
+    "express": "^5.1.0",
+    "jest": "^30.0.5",
+    "jest-html-reporter": "^4.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mock-user-auth": "^1.0.15",
+    "nightwatch": "^3.12.2",
+    "regenerator-runtime": "^0.14.1",
+    "supertest": "^7.1.4"
+  }
+}
