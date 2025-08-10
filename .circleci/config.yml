@@ -1,45 +1,41 @@
 version: 2.1
 
-executors:
-  node-executor:
-    docker:
-      - image: cimg/node:22.3  # Matches your local Node.js version
-    working_directory: ~/repo
-
 jobs:
-  run-ui-tests:
-    executor: node-executor
+  ui-tests:
+    docker:
+      - image: cimg/node:22.6.0-browsers
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - run:
-          name: Run UI tests
-          command: npm run test:ui
+          name: Run UI tests (headless)
+          command: npm run test:ui -- --env chrome
       - store_artifacts:
           path: reports/ui
-          destination: ui-reports
+          destination: ui-test-reports
 
-  run-api-tests:
-    executor: node-executor
+  api-tests:
+    docker:
+      - image: cimg/node:22.6.0
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - run:
           name: Run API tests
           command: npm run test:api
       - store_artifacts:
           path: reports/api
-          destination: api-reports
+          destination: api-test-reports
 
 workflows:
   version: 2
-  test-workflow:
+  build_and_test:
     jobs:
-      - run-ui-tests
-      - run-api-tests:
+      - ui-tests
+      - api-tests:
           requires:
-            - run-ui-tests
+            - ui-tests

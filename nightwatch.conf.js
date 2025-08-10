@@ -86,21 +86,18 @@ module.exports = {
     },
 
     chrome: {
-      desiredCapabilities : {
-        browserName : 'chrome',
-        'goog:chromeOptions' : {
-          // More info on Chromedriver: https://sites.google.com/a/chromium.org/chromedriver/
-          //
-          // w3c:false tells Chromedriver to run using the legacy JSONWire protocol (not required in Chrome 78)
-          w3c: true,
+      desiredCapabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
           args: [
-            //'--no-sandbox',
-            //'--ignore-certificate-errors',
-            //'--allow-insecure-localhost',
-            //'--headless'
+            '--headless',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--window-size=1920,1080'
           ]
         }
       },
+    
 
       webdriver: {
         start_process: true,
