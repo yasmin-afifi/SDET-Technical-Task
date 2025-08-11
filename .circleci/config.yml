@@ -9,8 +9,37 @@ jobs:
       - run:
           name: Install dependencies
           command: npm ci
+
       - run:
-          name: Run UI tests (headless)
+          name: Locate or install Chrome and set CHROME_BIN
+          command: |
+            echo "Searching for chrome binary..."
+            if command -v google-chrome-stable >/dev/null 2>&1; then
+              CHROME_BIN=$(command -v google-chrome-stable)
+            elif command -v google-chrome >/dev/null 2>&1; then
+              CHROME_BIN=$(command -v google-chrome)
+            elif command -v chromium-browser >/dev/null 2>&1; then
+              CHROME_BIN=$(command -v chromium-browser)
+            else
+              echo "Chrome not found - installing google-chrome-stable"
+              sudo apt-get update -y
+              sudo apt-get install -y wget gnupg2
+              wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+              echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+              sudo apt-get update -y
+              sudo apt-get install -y google-chrome-stable
+              CHROME_BIN=$(command -v google-chrome-stable || command -v google-chrome || true)
+            fi
+            if [ -z "$CHROME_BIN" ]; then
+              echo "ERROR: Chrome binary not found or could not be installed"
+              exit 1
+            fi
+            echo "Found CHROME_BIN: $CHROME_BIN"
+            echo "export CHROME_BIN=$CHROME_BIN" >> $BASH_ENV
+            # print for logs
+            echo "CHROME_BIN set to ${CHROME_BIN}"
+      - run:
+          name: Run UI tests (Chrome headless)
           command: npm run test:ui
       - store_artifacts:
           path: reports/ui

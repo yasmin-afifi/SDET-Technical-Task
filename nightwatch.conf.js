@@ -89,15 +89,18 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'chrome',
         chromeOptions: {
+          // allow Chrome binary to be provided by environment (CI will set CHROME_BIN)
+          // fallback paths in case CHROME_BIN isn't set
+          binary: process.env.CHROME_BIN || '/usr/bin/google-chrome-stable' || '/usr/bin/google-chrome',
           args: [
             '--headless',
             '--no-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-gpu'
+            '--disable-gpu',
+            '--window-size=1920,1080'
           ]
         }
       },
-    
 
       webdriver: {
         start_process: true,
