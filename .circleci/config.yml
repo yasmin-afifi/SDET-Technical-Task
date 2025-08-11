@@ -11,7 +11,7 @@ jobs:
           command: npm ci
       - run:
           name: Run UI tests (headless)
-          command: npm run test:ui -- --env chrome
+          command: npm run test:ui
       - store_artifacts:
           path: reports/ui
           destination: ui-test-reports
