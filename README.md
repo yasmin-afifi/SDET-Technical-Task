@@ -1,5 +1,7 @@
 # SDET Technical Task – Siemens
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/yasmin-afifi/SDET-Technical-Task/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/yasmin-afifi/SDET-Technical-Task/tree/main)
+
 This project contains automated UI tests written using **Nightwatch.js**, for a sample static website and a real external website (LinkedIn), and a functional e-commerce site (My Store), and a mock authentication API. 
 
 The project demonstrates:
@@ -10,7 +12,7 @@ The project demonstrates:
 - Data-driven testing
 - End-to-end testing with assertions and navigation
 - HTML reporting for both UI & API tests
-- CI-ready structure
+- CircleCI CI/CD integration
 
 ---
 
@@ -49,79 +51,78 @@ SDET-Technical-Task/
 
 ---
 
-## 🔧 Setup Instructions
+##  Setup Instructions
 
-> ⚠️ Requires Node.js and Chrome browser installed
+>  Requires Node.js and Chrome browser installed
 
 1. **Install project dependencies**
-```bash
-npm install
-```
+    ```bash
+    npm install
+    ```
 
 2. **Install ChromeDriver**
-```bash
-npm install chromedriver --save-dev
-```
+    ```bash
+    npm install chromedriver --save-dev
+    ```
 
 ---
 
-## 🚀 Running Tests
+##  Running Tests
 
-### Homepage Test (Task 1)
-```bash
-npx nightwatch ui-tests/tests/homepageTest.js --env chrome
-```
-or
+- ### Homepage Test (Task 1)
+    ```bash
+    npx nightwatch ui-tests/tests/homepageTest.js --env chrome
+    ```
+    or
+    
+    ```bash
+    npm run test:homepage
+    ```
 
-```bash
-npm run test:homepage
-```
 
+- ### LinkedIn Registration Flow (Task 2 – POM + data-driven)
+    ```bash
+    npx nightwatch ui-tests/tests/linkedinRegisterTest.js --env chrome
+    ```
+    or
+    
+    ```bash
+    npm run test:linkedin
+    ```
 
-### LinkedIn Registration Flow (Task 2 – POM + data-driven)
-```bash
-npx nightwatch ui-tests/tests/linkedinRegisterTest.js --env chrome
-```
-or
+- ### My Store Search Test (Task 3 – POM Only)
+    ```bash
+    npx nightwatch ui-tests/tests/myStoreSearchTest.js --env chrome
+    ```
+    or
+    
+    ```bash
+    npm run test:mystore
+    ```
 
-```bash
-npm run test:linkedin
-```
+- ### Run all UI tests
+    ```bash
+    npm run test:ui
+    ```
 
-### My Store Search Test (Task 3 – POM Only)
-```bash
-npx nightwatch ui-tests/tests/myStoreSearchTest.js --env chrome
-```
-or
+- ### Mock User Auth API Tests (Task 4)
+    ```bash
+    npm run test:api
+    ```
 
-```bash
-npm run test:mystore
-```
-
-### Run all UI tests
-```bash
-npm run test:ui
-```
-
-### Mock User Auth API Tests (Task 4)
-```bash
-npm run test:api
-```
-
-### Run everything in order (UI → API)
-```bash
-npm test
-```
+- ### Run everything in order (UI → API)
+    ```bash
+    npm test
+    ```
 
 
 ---
 
-## 🧪 Key Concepts
+##  Key Concepts
 
 - ✅ Uses **Page Object Model (POM)** for reusable selectors
 - ✅ Reads test data from external module (`linkedinUser.js`)
 - ✅ Validates critical UI elements and navigations
-- ✅ Follows best practices for structuring automated UI tests
 - ✅ Covers all API routes from `mock-user-auth`
   - `POST /api/v1/auth`
   - `POST /api/v1/users`
@@ -129,49 +130,53 @@ npm test
   - `PATCH /api/v1/users`
   - `DELETE /api/v1/users`
   - `DELETE /api/v1/all-users`
-- ✅ Generates HTML test reports for both UI & API under `reports` folder
-- ✅ CI-ready structure for CircleCI
+- ✅ Generates HTML reports in:
+  -  `/reports/ui` for UI tests
+  -  `/reports/api` for API tests
+- ✅ Fully integrated with CircleCI for CI/CD
 
 ---
 
-## 📄 Adding More Tests
-### UI Tests:
+##  Adding More Tests
+- ### UI Tests:
 
-1. Add your test to `ui-tests/tests/`
-2. (Optional) Create a new page object in `ui-tests/pages/`
-3. (Optional) Add test data in `ui-tests/data/`
-4. Run your test:
-```bash
-npx nightwatch ui-tests/tests/yourTestFile.js --env chrome
-```
+  1. Add your test to `ui-tests/tests/`
+  2. (Optional) Create a new page object in `ui-tests/pages/`
+  3. (Optional) Add test data in `ui-tests/data/`
+  4. Run your test:
+  ```bash
+  npx nightwatch ui-tests/tests/yourTestFile.js --env chrome
+  ```
+
+
+- ### API Tests:
+
+  1. Add your test to `api-tests/__tests__/`
+  2. Use `apiClient.js` for Supertest setup
+  3. Add new API data in `testData.js`
+  4. Run your test:
+  ```bash
+  npm run test:api
+  ```
 
 ---
 
-### API Tests:
+##  Reports
+- ### UI Reports:
+    Generated in `/reports/ui/` after Nightwatch runs
 
-1. Add your test to `api-tests/__tests__/`
-2. Use `apiClient.js` for Supertest setup
-3. Add new API data in `testData.js`
-4. Run your test:
-```bash
-npm run test:api
-```
-
----
-
-## 📊 Reports
-### UI Reports: Generated in `/reports/ui/` after Nightwatch runs
-
-### API Reports: Generated as `api-test-report.html` under `/reports/api/`
+- ### API Reports:
+    Generated as `api-test-report.html` under `/reports/api/`
 
 ---
 
 ## ℹ️ Notes
 
+- Tests run headless in CI, Chrome must be installed locally for local runs
 - Nightwatch has deprecated `.containsText()` — this project uses `.textContains()` instead.
 - Tests are executed using Chrome via ChromeDriver
-- API tests run against a local fake mock-user-auth server
-- CI config `(.circleci/config.yml)` ready for automation
+- API tests run against a local mock-user-auth server
+- CircleCI pipeline runs UI tests first, then API tests, and stores both reports as artifacts
 
 ---
 
