@@ -170,6 +170,16 @@ SDET-Technical-Task/
 
 ---
 
+##  Deliverables
+-  #### Test Caes for Task 1 
+    - SDET-Test-Cases-Task1 (PDF) -> `docs/SDET-Test-Cases-Task1.pdf` 
+-  #### Bug Report for Task 1 
+    - SDET-Bug-Report-Task1 (PDF) -> `docs/SDET-Bug-Report-Task1.pdf` 
+-  #### Bug Report for Task 3 
+    - SDET-Bug-Report-Task3 (PDF) -> `docs/SDET-Bug-Report-Task3.pdf` 
+
+---
+
 ## ℹ️ Notes
 
 - Tests run headless in CI, Chrome must be installed locally for local runs
